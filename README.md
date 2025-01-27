@@ -14,7 +14,7 @@ license: apache-2.0
 
 Why do we want to support streaming? What about streaming is important, or useful?
 
-#### ❓ ANSWER #1:
+####  ANSWER #1:
 
 The goal of streaming in this context is to render the generated answers in chunks. Thus reducing latency specifically for answers containing a lot of tokens
 
@@ -22,7 +22,7 @@ The goal of streaming in this context is to render the generated answers in chun
 
 Why are we using User Session here? What about Python makes us need to use this? Why not just store everything in a global variable?
 
-#### ❓ ANSWER #1:
+####  ANSWER #2:
 
 Users sessions are used to keep track of users activity. It can be used to retrieve contxt from previous conversations or separate conversions
 
