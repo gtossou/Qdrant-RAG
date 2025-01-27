@@ -11,6 +11,7 @@ from aimakerspace.openai_utils.embedding import EmbeddingModel
 from aimakerspace.vectordatabase import VectorDatabase
 from aimakerspace.openai_utils.chatmodel import ChatOpenAI
 import chainlit as cl
+from qdrant_client import QdrantClient
 
 system_template = """\
 Use the following context to answer a users question. If you cannot find the answer in the context, say you don't know the answer."""
@@ -32,11 +33,10 @@ class RetrievalAugmentedQAPipeline:
         self.vector_db_retriever = vector_db_retriever
 
     async def arun_pipeline(self, user_query: str):
-        context_list = self.vector_db_retriever.search_by_text(user_query, k=4)
+        context_data = self.vector_db_retriever.search_similar(user_query)
 
         context_prompt = ""
-        for context in context_list:
-            context_prompt += context[0] + "\n"
+        context_prompt += context_data + "\n"
 
         formatted_system_prompt = system_role_prompt.create_message()
 
@@ -50,7 +50,7 @@ class RetrievalAugmentedQAPipeline:
             ):
                 yield chunk
 
-        return {"response": generate_response(), "context": context_list}
+        return {"response": generate_response(), "context": context_prompt}
 
 
 text_splitter = CharacterTextSplitter()
@@ -113,8 +113,7 @@ async def on_chat_start():
 
     # Create a dict vector store
     vector_db = VectorDatabase()
-    vector_db = await vector_db.abuild_from_list(texts)
-
+    vector_db.upsert_documents(texts)
     chat_openai = ChatOpenAI()
 
     # Create a chain
