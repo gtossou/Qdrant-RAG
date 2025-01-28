@@ -113,6 +113,7 @@ async def on_chat_start():
 
     # Create a dict vector store
     vector_db = VectorDatabase()
+    vector_db._delete_collection()
     vector_db.upsert_documents(texts)
     chat_openai = ChatOpenAI()
 

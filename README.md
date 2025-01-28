@@ -38,7 +38,7 @@ Does this application pass your vibe check? Are there any immediate pitfalls you
 
 #### ❓ Discussion
 
-Yes The application passes the vibe check except for the last question but it is normal behaviour. My collection had documents from another uploaded PDF
+Not really. He doesnt know what is RL but he can respond to the other questions...
 
 ![image](vibe.png)
 
